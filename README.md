@@ -269,13 +269,7 @@ class Daili66Crawler(BaseCrawler):
 
 本项目提供了 Kubernetes 部署脚本，如需部署到 Kubernetes，请参考 [kubernetes](./kubernetes)。
 
-## 待开发
+## 可视化
 
-- [ ] 前端页面管理
-- [ ] 使用情况统计分析
+- [ ] Grafana配合MySQL 监控IP使用情况
 
-如有一起开发的兴趣可以在 Issue 留言，非常感谢！
-
-## LICENSE
-
-MIT
