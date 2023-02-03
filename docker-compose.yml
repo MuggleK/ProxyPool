@@ -2,10 +2,14 @@ version: "3"
 services:
   proxypool:
     build: .
-    network_mode: "host"
+    network_mode: host
     restart: always
     volumes:
-      - "/data/logs/ProxyPool:/app/ProxyPool/logs"
-      - "/home/ops/server/ProxyPool:/usr/spider"   # code path
+      - /data/logs/ProxyPool:/app/logs
+      - /home/ops/server/ProxyPool:/app
     container_name: proxypool
+    environment:
+      APP_ENV: PROD
+      ORIGIN_URL: 175.178.127.140
+      REDIS_PASSWORD: mugglek..aa
     entrypoint: ["supervisord", "-c", "supervisord.conf"]
