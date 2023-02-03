@@ -1,15 +1,16 @@
-FROM python:3.7-alpine AS build
-COPY requirements.txt .
-RUN apk update &&\
-    apk add --no-cache gcc g++ libffi-dev openssl-dev libxml2-dev libxslt-dev build-base musl-dev &&\
-    pip install -U pip &&\
-    pip install --timeout 30 --user --no-cache-dir --no-warn-script-location -r requirements.txt
+FROM python:3.7.3
 
-FROM python:3.7-alpine
-ENV APP_ENV=prod
-ENV LOCAL_PKG="/root/.local"
-COPY --from=build ${LOCAL_PKG} ${LOCAL_PKG}
-RUN apk update && apk add --no-cache libffi-dev openssl-dev libxslt-dev &&\
-    ln -sf ${LOCAL_PKG}/bin/* /usr/local/bin/
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
+
+RUN ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN dpkg-reconfigure -f noninteractive tzdata
+RUN mkdir -p /data/logs
+
+
 WORKDIR /app
-COPY . .
+COPY . /app
+RUN pip install --upgrade pip -i https://pypi.douban.com/simple/
+RUN pip install -r requirements.txt -i https://pypi.douban.com/simple/
+
+ENV PYTHONPATH=/app
