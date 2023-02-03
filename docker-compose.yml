@@ -1,0 +1,10 @@
+version: "3"
+services:
+  proxypool:
+    container_name: proxypool
+    network_mode: "host"
+    restart: always
+    volumes:
+      - "/data/logs/ProxyPool:/app/ProxyPool/logs"
+      - "/home/ops/server/ProxyPool:/usr/spider"   # code path
+    entrypoint: ["supervisord", "-c", "supervisord.conf"]
