@@ -20,13 +20,13 @@ spec:
         - name: {{ include "proxypool.fullname" . }}
           image: {{ .Values.deployment.image }}
           ports:
-            - containerPort: 5555
+            - containerPort: 5633
               protocol: TCP
           imagePullPolicy: {{ .Values.deployment.imagePullPolicy }}
           livenessProbe:
             httpGet:
               path: /random
-              port: 5555
+              port: 5633
             initialDelaySeconds: 60
             periodSeconds: 5
             failureThreshold: 5

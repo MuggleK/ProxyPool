@@ -85,8 +85,8 @@ class GetIpThread(threading.Thread):
 
 if __name__ == '__main__':
     # 获取IP的API接口
-    # apiUrl = "http://127.0.0.1:5555/all"
-    apiUrl = "http://127.0.0.1:5555/random"
+    # apiUrl = "http://127.0.0.1:5633/all"
+    apiUrl = "http://127.0.0.1:5633/random"
     # 要抓取的目标网站地址
     targetUrl = "http://bb.cf08tp.cn/Home/index.php?m=Index&a=vote&vid=335688&id=2676&tp="
     # targetUrl = 'http://bb.cf08tp.cn/Home/index.php?m=Index&a=vote&vid=335608&id=2676&tp='

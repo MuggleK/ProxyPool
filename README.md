@@ -1,9 +1,6 @@
 # ProxyPool
 
-![build](https://github.com/Python3WebSpider/ProxyPool/workflows/build/badge.svg)
-![deploy](https://github.com/Python3WebSpider/ProxyPool/workflows/deploy/badge.svg)
-![](https://img.shields.io/badge/python-3.6%2B-brightgreen)
-![Docker Pulls](https://img.shields.io/docker/pulls/germey/proxypool)
+![](https://img.shields.io/badge/python-3.7%2B-brightgreen)
 
 简易高效的代理池，提供如下功能：
 
@@ -12,35 +9,24 @@
 - 定时测试和筛选，剔除不可用代理，留下可用代理。
 - 提供代理 API，随机取用测试通过的可用代理。
 
-代理池原理解析可见「[如何搭建一个高效的代理池](https://cuiqingcai.com/7048.html)」，建议使用之前阅读。
+本项目参考「[如何搭建一个高效的代理池](https://cuiqingcai.com/7048.html)」，建议使用之前阅读。
 
+### 使用Docker构建接口服务镜像&容器
 
-## 使用要求
+yml可配置项
+```shell
+environment:
+  APP_ENV: PROD
+  API_PORT: 5633
+  REDIS_HOST: 127.0.0.1
+  REDIS_PORT: 6379
+  ...
+```
 
-可以通过两种方式来运行代理池，一种方式是使用 Docker（推荐），另一种方式是常规方式运行，要求如下：
-
-### Docker
-
-如果使用 Docker，则需要安装如下环境：
-
-- Docker
-- Docker-Compose
-
-安装方法自行搜索即可。
-
-
-### 常规方式
-
-常规方式要求有 Python 环境、Redis 环境，具体要求如下：
-
-- Python>=3.6
-- Redis
-
-## Docker 运行
-
-如果安装好了 Docker 和 Docker-Compose，只需要一条命令即可运行。
-
+docker-compose 启动
 ```shell script
+docker-compose build
+
 docker-compose up
 ```
 
@@ -59,32 +45,22 @@ proxypool    | 2020-02-19 17:09:46,596 INFO success: server entered RUNNING stat
 proxypool    | 2020-02-19 17:09:46,596 INFO success: tester entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
 ```
 
-可以看到 Redis、Getter、Server、Tester 都已经启动成功。
+访问 [http://localhost:5633/random](http://localhost:5633/random) 即可获取一个随机可用代理。
 
-这时候访问 [http://localhost:5555/random](http://localhost:5555/random) 即可获取一个随机可用代理。
-
-当然你也可以选择自己 Build，直接运行如下命令即可：
+自定义容器：
 
 ```
 docker-compose -f build.yaml up
 ```
 
-如果下载速度特别慢，可以自行修改 Dockerfile，修改：
+### 常规方式
 
-```diff
-- RUN pip install -r requirements.txt
-+ RUN pip install -r requirements.txt -i https://pypi.douban.com/simple
-```
+常规方式要求有 Python 和 Redis 环境，具体要求如下：
 
-## 常规方式运行
+- Python>=3.7
+- Redis：默认本地已搭建好redis或有可远程链接
 
-如果不使用 Docker 运行，配置好 Python、Redis 环境之后也可运行，步骤如下。
-
-### 安装和配置 Redis
-
-本地安装 Redis、Docker 启动 Redis、远程 Redis 都是可以的，只要能正常连接使用即可。
-
-首先可以需要一下环境变量，代理池会通过环境变量读取这些值。
+#### 配置 Redis
 
 设置 Redis 的环境变量有两种方式，一种是分别设置 host、port、password，另一种是设置连接字符串，设置方法分别如下：
 
@@ -108,25 +84,21 @@ export PROXYPOOL_REDIS_CONNECTION_STRING='redis://localhost'
 
 以上两种设置任选其一即可。
 
-### 安装依赖包
+#### 安装依赖包
 
 ```shell script
 pip3 install -r requirements.txt
 ```
 
-### 运行代理池
+#### 运行代理池
 
-两种方式运行代理池，一种是 Tester、Getter、Server 全部运行，另一种是按需分别运行。
-
-一般来说可以选择全部运行，命令如下：
+Tester、Getter、Server 全部运行，命令如下：
 
 ```shell script
 python3 run.py
 ```
 
-运行之后会启动 Tester、Getter、Server，这时访问 [http://localhost:5555/random](http://localhost:5555/random) 即可获取一个随机可用代理。
-
-或者如果你弄清楚了代理池的架构，可以按需分别运行，命令如下：
+按需分别运行，命令如下：
 
 ```shell script
 python3 run.py --processor getter
@@ -134,13 +106,7 @@ python3 run.py --processor tester
 python3 run.py --processor server
 ```
 
-这里 processor 可以指定运行 Tester、Getter 还是 Server。
-
-成功运行之后可以通过 [http://localhost:5555/random](http://localhost:5555/random) 获取一个随机可用代理。
-
-## 可配置项
-
-代理池可以通过设置环境变量来配置一些参数。
+## 可配置项说明
 
 ### 开关
 
@@ -173,7 +139,7 @@ python3 run.py --processor server
 - TEST_BATCH：批量测试数量，默认 20 个代理
 - TEST_VALID_STATUS：测试有效的状态码
 - API_HOST：代理 Server 运行 Host，默认 0.0.0.0
-- API_PORT：代理 Server 运行端口，默认 5555
+- API_PORT：代理 Server 运行端口，默认 5633
 - API_THREADED：代理 Server 是否使用多线程，默认 true
 
 ### 日志
@@ -213,7 +179,7 @@ services:
     image: "germey/proxypool"
     container_name: proxypool
     ports:
-      - "5555:5555"
+      - "5633:5633"
     restart: always
     environment:
       REDIS_HOST: redis
@@ -272,4 +238,3 @@ class Daili66Crawler(BaseCrawler):
 ## 可视化
 
 - [ ] Grafana配合MySQL 监控IP使用情况
-

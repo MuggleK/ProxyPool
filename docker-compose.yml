@@ -10,6 +10,7 @@ services:
     container_name: proxypool
     environment:
       APP_ENV: PROD
+      API_PORT: 5633
       ORIGIN_URL: 175.178.127.140
       REDIS_PASSWORD: mugglek..aa
     entrypoint: ["supervisord", "-c", "supervisord.conf"]
