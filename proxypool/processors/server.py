@@ -1,4 +1,4 @@
-from flask import Flask, g
+from flask import Flask, g, request
 from proxypool.storages.redis import RedisClient
 from proxypool.setting import API_HOST, API_PORT, API_THREADED, IS_DEV
 
@@ -63,6 +63,19 @@ def get_count():
     """
     conn = get_conn()
     return str(conn.count())
+
+
+@app.route('/type', methods=['GET'])
+def get_type():
+    """
+    get the proxy types or special proxy
+    :return: types or proxy, list or string
+    """
+    conn = get_conn()
+    name = request.args.get("name")
+    if not name:
+        return conn.crawler_type()
+    return conn.get_special(name)
 
 
 if __name__ == '__main__':

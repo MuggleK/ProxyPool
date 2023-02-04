@@ -106,6 +106,15 @@ python3 run.py --processor tester
 python3 run.py --processor server
 ```
 
+## 接口说明
+```shell
+/random # 从总池中随机获取代理
+/all # 返回全部代理
+/count # 返回总池代理个数
+/type # 获取当前池内代理厂商
+/type?name=*** # 随机获取***厂商代理
+```
+
 ## 可配置项说明
 
 ### 开关
@@ -132,12 +141,14 @@ python3 run.py --processor server
 
 ### 处理器
 
-- CYCLE_TESTER：Tester 运行周期，即间隔多久运行一次测试，默认 20 秒
-- CYCLE_GETTER：Getter 运行周期，即间隔多久运行一次代理获取，默认 100 秒
+- CYCLE_TESTER：Tester 运行周期，即间隔多久运行一次测试，默认 5 秒
+- CYCLE_GETTER：Getter 运行周期，即间隔多久运行一次代理获取，默认 10 秒
 - TEST_URL：测试 URL，默认百度
-- TEST_TIMEOUT：测试超时时间，默认 10 秒
-- TEST_BATCH：批量测试数量，默认 20 个代理
+- TEST_TIMEOUT：测试超时时间，默认 5 秒
+- TEST_BATCH：批量测试数量，WIN环境最大500个，Linux最大1000个
 - TEST_VALID_STATUS：测试有效的状态码
+- CHECK_MODE：测试代理的方式（默认HTTP，循环校验；可选EXPIRE，同类ip自动超时不校验）
+- EXPIRE_TIMES：IP超时时间
 - API_HOST：代理 Server 运行 Host，默认 0.0.0.0
 - API_PORT：代理 Server 运行端口，默认 5633
 - API_THREADED：代理 Server 是否使用多线程，默认 true

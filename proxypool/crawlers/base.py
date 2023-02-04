@@ -1,13 +1,14 @@
 from retrying import RetryError, retry
 import requests
 from loguru import logger
-from proxypool.setting import GET_TIMEOUT
+from proxypool.setting import GET_TIMEOUT, CHECK_MODE
 from fake_headers import Headers
 import time
 
 
 class BaseCrawler(object):
     urls = []
+    check_mode = CHECK_MODE     # 每个proxy类可单独配置
 
     @retry(stop_max_attempt_number=3, retry_on_result=lambda x: x is None, wait_fixed=2000)
     def fetch(self, url, **kwargs):
@@ -30,6 +31,13 @@ class BaseCrawler(object):
         for proxy in self.parse(html):
             logger.info(f'fetched proxy {proxy.string()} from {url}')
             yield proxy
+
+    def parse(self, html):
+        """
+        parse html file to get proxies
+        :return:
+        """
+        pass
 
     def crawl(self):
         """

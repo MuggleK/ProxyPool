@@ -15,12 +15,13 @@ if IS_WINDOWS:
 tester_process, getter_process, server_process = None, None, None
 
 
-class Scheduler():
+class Scheduler:
     """
     scheduler
     """
 
-    def run_tester(self, cycle=CYCLE_TESTER):
+    @staticmethod
+    def run_tester(cycle=CYCLE_TESTER):
         """
         run tester
         """
@@ -35,7 +36,8 @@ class Scheduler():
             loop += 1
             time.sleep(cycle)
 
-    def run_getter(self, cycle=CYCLE_GETTER):
+    @staticmethod
+    def run_getter(cycle=CYCLE_GETTER):
         """
         run getter
         """
@@ -50,7 +52,8 @@ class Scheduler():
             loop += 1
             time.sleep(cycle)
 
-    def run_server(self):
+    @staticmethod
+    def run_server():
         """
         run server for api
         """
@@ -129,10 +132,10 @@ class Scheduler():
             tester_process and tester_process.join()
             getter_process and getter_process.join()
             server_process and server_process.join()
-            # logger.info(
-            #     f'tester is {"alive" if tester_process.is_alive() else "dead"}')
-            # logger.info(
-            #     f'getter is {"alive" if getter_process.is_alive() else "dead"}')
+            logger.info(
+                f'tester is {"alive" if tester_process.is_alive() else "dead"}')
+            logger.info(
+                f'getter is {"alive" if getter_process.is_alive() else "dead"}')
             logger.info(
                 f'server is {"alive" if server_process.is_alive() else "dead"}')
             logger.info('proxy terminated')

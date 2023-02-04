@@ -46,7 +46,7 @@ REDIS_DB = env.int('PROXYPOOL_REDIS_DB', env.int('REDIS_DB', 0))
 REDIS_CONNECTION_STRING = env.str('PROXYPOOL_REDIS_CONNECTION_STRING', env.str('REDIS_CONNECTION_STRING', None))
 
 # redis hash table key name
-REDIS_KEY = env.str('PROXYPOOL_REDIS_KEY', env.str('REDIS_KEY', 'proxies:universal'))
+REDIS_KEY = env.str('PROXYPOOL_REDIS_KEY', env.str('REDIS_KEY', 'proxies'))
 
 # definition of proxy scores
 PROXY_SCORE_MAX = 100
@@ -76,6 +76,8 @@ TEST_ANONYMOUS = env.bool('TEST_ANONYMOUS', True)
 #     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36',
 # })
 TEST_VALID_STATUS = env.list('TEST_VALID_STATUS', [200, 206, 302])
+CHECK_MODE = env.str("CHECK_MODE", "HTTP")
+EXPIRE_TIMES = env.int("EXPIRE_TIMES", 120)
 
 # definition of api
 API_HOST = env.str('API_HOST', '0.0.0.0')
