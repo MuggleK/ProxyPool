@@ -12,7 +12,6 @@ class Daili66Crawler(BaseCrawler):
     daili66 crawler, http://www.66ip.cn/1.html
     """
     urls = [BASE_URL.format(page=page) for page in range(1, MAX_PAGE + 1)]
-    check_mode = "expire"
     
     def parse(self, html):
         """
