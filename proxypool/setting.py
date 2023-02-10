@@ -48,11 +48,6 @@ REDIS_CONNECTION_STRING = env.str('PROXYPOOL_REDIS_CONNECTION_STRING', env.str('
 # redis hash table key name
 REDIS_KEY = env.str('PROXYPOOL_REDIS_KEY', env.str('REDIS_KEY', 'proxies'))
 
-# definition of proxy scores
-PROXY_SCORE_MAX = 100
-PROXY_SCORE_MIN = 0
-PROXY_SCORE_INIT = 10
-
 # definition of proxy number
 PROXY_NUMBER_MAX = 5000
 PROXY_NUMBER_MIN = 0
@@ -61,7 +56,7 @@ PROXY_NUMBER_MIN = 0
 CYCLE_TESTER = env.int('CYCLE_TESTER', 0)
 
 # definition of getter cycle, it will get proxy every CYCLE_GETTER second
-CYCLE_GETTER = env.int('CYCLE_GETTER', 300)
+CYCLE_GETTER = env.int('CYCLE_GETTER', 60)
 GET_TIMEOUT = env.int('GET_TIMEOUT', 10)
 
 # definition of tester
@@ -76,7 +71,6 @@ TEST_ANONYMOUS = env.bool('TEST_ANONYMOUS', True)
 #     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36',
 # })
 TEST_VALID_STATUS = env.list('TEST_VALID_STATUS', [200, 206, 302])
-CHECK_MODE = env.str("CHECK_MODE", "HTTP")
 EXPIRE_TIMES = env.int("EXPIRE_TIMES", 120)
 
 # definition of api

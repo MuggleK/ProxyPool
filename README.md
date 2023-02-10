@@ -6,7 +6,7 @@
 
 - 定时抓取免费代理网站，简易可扩展。
 - 使用 Redis 对代理进行存储并对代理可用性进行排序。
-- 定时测试和筛选，剔除不可用代理，留下可用代理。
+- 超时检测，定时筛选，剔除不可用代理，留下可用代理。
 - 提供代理 API，随机取用测试通过的可用代理。
 
 本项目参考「[如何搭建一个高效的代理池](https://cuiqingcai.com/7048.html)」，建议使用之前阅读。
@@ -147,7 +147,6 @@ python3 run.py --processor server
 - TEST_TIMEOUT：测试超时时间，默认 5 秒
 - TEST_BATCH：批量测试数量，WIN环境最大500个，Linux最大1000个
 - TEST_VALID_STATUS：测试有效的状态码
-- CHECK_MODE：测试代理的方式（默认HTTP，循环校验；可选EXPIRE，同类ip自动超时不校验）
 - EXPIRE_TIMES：IP超时时间
 - API_HOST：代理 Server 运行 Host，默认 0.0.0.0
 - API_PORT：代理 Server 运行端口，默认 5633

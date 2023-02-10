@@ -1,6 +1,6 @@
 from loguru import logger
 from proxypool.storages.redis import RedisClient
-from proxypool.setting import PROXY_NUMBER_MAX, REDIS_KEY, EXPIRE_TIMES
+from proxypool.setting import PROXY_NUMBER_MAX, REDIS_KEY
 from proxypool.crawlers import __all__ as crawlers_cls
 
 
@@ -36,8 +36,6 @@ class Getter(object):
             logger.info(f'crawler {crawler} to get proxy')
             for proxy in crawler().crawl():
                 self.redis.add(f"{REDIS_KEY}:{crawler.__name__}", proxy)
-            if crawler.check_mode.upper() == "EXPIRE":
-                self.redis.db.expire(f"{REDIS_KEY}:{crawler.__name__}", EXPIRE_TIMES)
 
 
 if __name__ == '__main__':

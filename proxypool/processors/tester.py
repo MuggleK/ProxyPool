@@ -57,11 +57,8 @@ class Tester(object):
                     resp_json = response.json()
                     anonymous_ip = resp_json.get('origin')
                     assert ORIGIN_URL != anonymous_ip
-                    assert proxy.host == anonymous_ip
                 response = await session.get(TEST_URL)
-                if response.status_code in TEST_VALID_STATUS:
-                    self.redis.max(redis_key, proxy)
-                else:
+                if response.status_code not in TEST_VALID_STATUS:
                     self.redis.remove(redis_key, proxy)
             except EXCEPTIONS:
                 self.redis.remove(redis_key, proxy)
@@ -74,14 +71,12 @@ class Tester(object):
         """
         # event loop of aiohttp
         logger.info('stating tester...')
-        count = self.redis.count()
-        logger.debug(f'{count} proxies to test')
         for crawler in crawlers_cls:
-            if crawler.check_mode.upper() == "EXPIRE": continue
+            redis_key = f"{REDIS_KEY}:{crawler.__name__}"
+            self.redis.remove_expire(redis_key)
+            cursor = 0
             while True:
-                cursor = 0
                 logger.debug(f'testing {crawler.__name__} use cursor {cursor}, count {TEST_BATCH}')
-                redis_key = f"{REDIS_KEY}:{crawler.__name__}"
                 cursor, proxies = self.redis.batch(redis_key, cursor, count=TEST_BATCH)
                 if proxies:
                     tasks = [self.test(redis_key, proxy) for proxy in proxies]
