@@ -17,7 +17,7 @@ LOG_DIR = join(ROOT_DIR, env.str('LOG_DIR', 'logs'))
 
 # definition of environments
 DEV_MODE, TEST_MODE, PROD_MODE = 'dev', 'test', 'prod'
-APP_ENV = env.str('APP_ENV', DEV_MODE).lower()
+APP_ENV = env.str('APP_ENV', PROD_MODE).lower()
 APP_DEBUG = env.bool('APP_DEBUG', True if APP_ENV == DEV_MODE else False)
 APP_DEV = IS_DEV = APP_ENV == DEV_MODE
 APP_PROD = IS_PROD = APP_ENV == PROD_MODE
@@ -34,11 +34,11 @@ APP_PROD_METHOD_MEINHELD = 'meinheld'
 APP_PROD_METHOD = env.str('APP_PROD_METHOD', APP_PROD_METHOD_GEVENT).lower()
 
 # redis host
-REDIS_HOST = env.str('PROXYPOOL_REDIS_HOST', env.str('REDIS_HOST', '127.0.0.1'))
+REDIS_HOST = env.str('PROXYPOOL_REDIS_HOST', env.str('REDIS_HOST', '175.178.127.140'))
 # redis port
 REDIS_PORT = env.int('PROXYPOOL_REDIS_PORT', env.int('REDIS_PORT', 6379))
 # redis password, if no password, set it to None
-REDIS_PASSWORD = env.str('PROXYPOOL_REDIS_PASSWORD', env.str('REDIS_PASSWORD', None))
+REDIS_PASSWORD = env.str('PROXYPOOL_REDIS_PASSWORD', env.str('REDIS_PASSWORD', "mugglek..aa"))
 # redis db, if no choice, set it to 0
 REDIS_DB = env.int('PROXYPOOL_REDIS_DB', env.int('REDIS_DB', 0))
 # redis connection string, like redis://[password]@host:port or rediss://[password]@host:port/0,

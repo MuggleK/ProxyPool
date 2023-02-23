@@ -56,7 +56,7 @@ class Tester(object):
                         return
                     resp_json = response.json()
                     anonymous_ip = resp_json.get('origin')
-                    assert ORIGIN_URL != anonymous_ip
+                    # assert ORIGIN_URL != anonymous_ip
                 response = await session.get(TEST_URL)
                 if response.status_code not in TEST_VALID_STATUS:
                     self.redis.remove(redis_key, proxy)
